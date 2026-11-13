@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Carta Chifa Katzumy</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fuente Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Ocultar scrollbars en barras horizontales */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Prevenir zoom automático en iOS/Android al enfocar inputs */
+    input, select, textarea { font-size: 16px !important; }
+    
+    /* Transición táctil sutil */
+    .tap-card { transition: transform 0.08s cubic-bezier(0.2, 0, 0, 1), background-color 0.1s ease; }
+    .tap-card:active { transform: scale(0.985); }
+
+    /* Resaltado de búsqueda minimalista */
+    mark {
+      background-color: rgba(245, 158, 11, 0.25);
+      color: inherit;
+      padding: 0 2px;
+      border-radius: 4px;
+      font-weight: 800;
+    }
+    .dark mark {
+      background-color: rgba(251, 191, 36, 0.28);
+      color: #FDE68A;
+    }
+  </style>
+</head>
+<body class="bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans antialiased selection:bg-rose-600 selection:text-white pb-32 transition-colors duration-150">
+
+  <!-- CABECERA MINIMALISTA FIJA -->
+  <header class="sticky top-0 z-30 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl border-b border-zinc-200/80 dark:border-zinc-800/80">
+    <div class="max-w-2xl mx-auto px-4 pt-3 pb-2.5">
+      
+      <!-- Fila Superior: Identidad + Acciones rápidas -->
+      <div class="flex items-center justify-between gap-2 mb-2.5">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 flex items-center justify-center font-black text-xs tracking-tighter shrink-0">
+            CK
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <h1 class="text-base font-extrabold tracking-tight text-zinc-900 dark:text-white leading-none truncate">
+                Chifa Katzumy
+              </h1>
+              <span id="totalMenuBadge" class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 shrink-0 tabular-nums">
+                86
+              </span>
+            </div>
+            <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 truncate">Agilidad mozo &bull; 25 mesas</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button onclick="openBackupModal()" aria-label="Respaldo" title="Respaldo de precios" class="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center justify-center transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+            </svg>
+          </button>
+
+          <button onclick="toggleTheme()" aria-label="Tema" class="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center justify-center transition">
+            <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+          </button>
+
+          <button onclick="openDishModal()" class="h-9 px-3 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-950 text-xs font-bold flex items-center gap-1 transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span>Plato</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Buscador -->
+      <div class="relative flex items-center">
+        <span class="absolute left-3.5 text-zinc-400 pointer-events-none">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"/>
+          </svg>
+        </span>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Buscar plato, wantán o precio... (ej. chaufa, wantan, 15)" 
+          autocomplete="off"
+          class="w-full bg-zinc-100/90 dark:bg-zinc-900 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 focus:border-zinc-900 dark:focus:border-zinc-400 focus:bg-white dark:focus:bg-zinc-900 focus:outline-none font-medium transition"
+        >
+        <button 
+          id="clearSearchBtn" 
+          onclick="clearSearch()" 
+          aria-label="Limpiar"
+          class="hidden absolute right-2 w-7 h-7 rounded-lg bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-300 flex items-center justify-center transition"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Categorías -->
+      <div id="categoryChips" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2.5 pb-0.5">
+        <!-- Generado dinámicamente -->
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="max-w-2xl mx-auto px-4 pt-3">
+    
+    <!-- Selector de las 25 Mesas + Llevar -->
+    <div class="mb-3">
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Seleccionar Mesa (1 - 25)</span>
+      </div>
+      <div class="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-900 p-1.5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 overflow-x-auto no-scrollbar" id="tableSelector">
+        <!-- Generado por JS -->
+      </div>
+    </div>
+
+    <!-- Más pedidos -->
+    <div id="quickFrequentBar" class="hidden mb-3">
+      <div class="flex items-center justify-between mb-1.5">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Acceso rápido &bull; Más pedidos</span>
+      </div>
+      <div id="frequentChips" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5"></div>
+    </div>
+
+    <!-- Filtro de orden -->
+    <div class="flex items-center justify-between gap-2 mb-2.5">
+      <span id="resultsCount" class="text-xs font-semibold text-zinc-500 dark:text-zinc-400">86 resultados</span>
+      <div class="flex items-center gap-1.5">
+        <select id="sortFilter" onchange="renderMenu()" aria-label="Ordenar" class="bg-transparent text-xs font-semibold text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2 py-1 focus:outline-none">
+          <option value="default" class="bg-white dark:bg-zinc-900">Orden de carta</option>
+          <option value="price_asc" class="bg-white dark:bg-zinc-900">Menor precio</option>
+          <option value="price_desc" class="bg-white dark:bg-zinc-900">Mayor precio</option>
+          <option value="edited_only" class="bg-white dark:bg-zinc-900">Precios editados</option>
+          <option value="available_only" class="bg-white dark:bg-zinc-900">Solo disponibles</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Lista -->
+    <div id="menuList" class="divide-y divide-zinc-200/70 dark:divide-zinc-800/70 bg-white dark:bg-zinc-900/60 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden"></div>
+
+    <!-- Vacío -->
+    <div id="emptyState" class="hidden text-center py-14 px-4">
+      <div class="w-11 h-11 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 mx-auto flex items-center justify-center mb-3 text-zinc-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"/>
+        </svg>
+      </div>
+      <h3 class="text-sm font-bold text-zinc-900 dark:text-zinc-100">Sin coincidencias</h3>
+      <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Prueba con otra palabra o limpia los filtros.</p>
+      <button onclick="resetFilters()" class="mt-4 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-bold px-4 py-2 rounded-xl text-xs transition">
+        Ver toda la carta
+      </button>
+    </div>
+  </main>
+
+  <!-- BARRA FLOTANTE DE COMANDA -->
+  <div id="orderBar" class="fixed bottom-0 inset-x-0 z-30 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-800 px-4 py-3 shadow-[0_-10px_30px_rgba(0,0,0,0.12)] transition-transform duration-200 translate-y-full">
+    <div class="max-w-2xl mx-auto flex items-center justify-between gap-3">
+      <button onclick="toggleOrderDrawer()" class="flex items-center gap-3 text-left flex-1 min-w-0">
+        <div class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 px-2.5 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 tabular-nums">
+          <span id="orderCountBadge">0</span>
+        </div>
+        <div class="min-w-0">
+          <div class="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
+            <span id="activeTableLabel" class="text-rose-600 dark:text-rose-400 uppercase tracking-wider">Mesa 1</span>
+            <span>&bull;</span>
+            <span class="truncate">Ver comanda y vuelto</span>
+          </div>
+          <div id="orderTotalText" class="text-lg font-black text-zinc-900 dark:text-white leading-tight tabular-nums">S/ 0.00</div>
+        </div>
+      </button>
+      <button onclick="toggleOrderDrawer()" class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-bold px-4 py-2.5 rounded-xl text-xs shrink-0">
+        Cuenta
+      </button>
+    </div>
+  </div>
+
+  <!-- CAJÓN DE COMANDA -->
+  <div id="orderDrawer" class="hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-xs flex items-end justify-center">
+    <div class="bg-white dark:bg-zinc-950 w-full max-w-2xl rounded-t-3xl border-t border-zinc-200 dark:border-zinc-800 p-5 max-h-[90vh] flex flex-col shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
+        <div>
+          <h2 id="drawerTableTitle" class="text-base font-black text-zinc-900 dark:text-white">Comanda - Mesa 1</h2>
+          <p class="text-xs text-zinc-500 dark:text-zinc-400">Notas de cocina, táperes y vuelto</p>
+        </div>
+        <button onclick="toggleOrderDrawer()" class="w-8 h-8 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-zinc-500 flex items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Extras -->
+      <div class="pt-2.5 pb-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+        <button onclick="addCustomExtra('Táper / Envase', 1)" class="px-2.5 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 whitespace-nowrap shrink-0">+ Táper (S/ 1)</button>
+        <button onclick="addCustomExtra('Bolsa / Cubiertos', 0.5)" class="px-2.5 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 whitespace-nowrap shrink-0">+ Envase (S/ 0.50)</button>
+        <button onclick="toggleCustomExtraForm()" class="px-2.5 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 whitespace-nowrap shrink-0">+ Extra libre</button>
+      </div>
+
+      <div id="customExtraForm" class="hidden bg-zinc-100 dark:bg-zinc-900 p-2.5 rounded-xl mt-1.5 border border-zinc-200 dark:border-zinc-800 flex items-center gap-2">
+        <input type="text" id="extraNameInput" placeholder="Ej. Porción arroz" class="flex-1 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 text-xs font-medium focus:outline-none">
+        <input type="number" id="extraPriceInput" step="0.50" min="0" placeholder="S/" class="w-20 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 text-xs font-bold focus:outline-none tabular-nums">
+        <button onclick="submitCustomExtra()" class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 px-3 py-1.5 rounded-lg text-xs font-bold">Añadir</button>
+      </div>
+
+      <!-- Ítems comanda -->
+      <div id="orderItemsList" class="overflow-y-auto py-2.5 space-y-2 flex-1"></div>
+
+      <!-- Vuelto -->
+      <div class="bg-zinc-100 dark:bg-zinc-900 rounded-2xl p-3 my-2 border border-zinc-200/80 dark:border-zinc-800">
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex-1">
+            <label for="cashPaidInput" class="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1">Cliente paga con (S/)</label>
+            <div class="flex items-center gap-1.5">
+              <input type="number" id="cashPaidInput" oninput="calculateChange()" placeholder="Ej. 50" class="w-full bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white font-bold px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-800 focus:outline-none tabular-nums">
+              <button type="button" onclick="setQuickCash(20)" class="px-2.5 py-1.5 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-bold text-zinc-700 dark:text-zinc-300">20</button>
+              <button type="button" onclick="setQuickCash(50)" class="px-2.5 py-1.5 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-bold text-zinc-700 dark:text-zinc-300">50</button>
+              <button type="button" onclick="setQuickCash(100)" class="px-2.5 py-1.5 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-bold text-zinc-700 dark:text-zinc-300">100</button>
+            </div>
+          </div>
+          <div class="text-right pl-2 border-l border-zinc-200 dark:border-zinc-800 shrink-0">
+            <span class="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Vuelto</span>
+            <span id="changeDueText" class="text-lg font-black text-emerald-600 dark:text-emerald-400 tabular-nums">S/ 0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2.5 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between gap-2">
+        <div>
+          <span class="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase font-bold block">Total Cuenta</span>
+          <span id="drawerTotalText" class="text-2xl font-black text-zinc-900 dark:text-white tabular-nums">S/ 0.00</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="copyOrderSummary()" class="bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 font-bold px-3.5 py-2.5 rounded-xl text-xs transition">Copiar</button>
+          <button id="releaseTableBtn" onclick="confirmReleaseTable()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition">Cobrar y Liberar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL NOTA -->
+  <div id="noteModal" class="hidden fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-950 w-full max-w-sm rounded-3xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-2xl">
+      <div class="flex items-center justify-between mb-3">
+        <div class="min-w-0 pr-2">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-400">Nota cocina / barra</span>
+          <h3 id="noteDishTitle" class="text-sm font-black text-zinc-900 dark:text-white truncate">Plato</h3>
+        </div>
+        <button onclick="closeNoteModal()" class="w-8 h-8 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-zinc-500 flex items-center justify-center shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex flex-wrap gap-1.5 mb-3">
+        <button type="button" onclick="toggleQuickNoteChip('Sin cebolla')" class="px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Sin cebolla</button>
+        <button type="button" onclick="toggleQuickNoteChip('Para llevar')" class="px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Para llevar</button>
+        <button type="button" onclick="toggleQuickNoteChip('Helada')" class="px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Helada</button>
+        <button type="button" onclick="toggleQuickNoteChip('Sin helar')" class="px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Sin helar</button>
+        <button type="button" onclick="toggleQuickNoteChip('Bien cocido')" class="px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Bien cocido</button>
+        <button type="button" onclick="toggleQuickNoteChip('Poco ají')" class="px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Poco ají</button>
+      </div>
+
+      <input type="hidden" id="noteOrderIndex">
+      <input type="text" id="noteTextInput" placeholder="Indicación libre..." class="w-full bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 focus:outline-none text-sm font-medium mb-4">
+
+      <div class="flex items-center justify-between gap-2">
+        <button type="button" onclick="clearNoteInput()" class="text-xs font-bold text-zinc-400 px-2 py-2">Limpiar</button>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeNoteModal()" class="bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold px-3.5 py-2 rounded-xl text-xs">Cancelar</button>
+          <button type="button" onclick="saveItemNote()" class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-black px-4 py-2 rounded-xl text-xs">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EDICIÓN PLATO -->
+  <div id="dishModal" class="hidden fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-950 w-full max-w-md rounded-3xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-2xl">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <h2 id="modalTitle" class="text-base font-black text-zinc-900 dark:text-white">Editar Plato</h2>
+          <span id="editedBadgeModal" class="hidden text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300">Editado</span>
+        </div>
+        <button onclick="closeDishModal()" class="w-8 h-8 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-zinc-500 flex items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <form id="dishForm" onsubmit="saveDish(event)" class="space-y-4">
+        <input type="hidden" id="editDishId">
+        <div>
+          <label class="block text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1">Nombre</label>
+          <input type="text" id="dishNameInput" required placeholder="Ej. Wantán frito" class="w-full bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 focus:outline-none font-medium">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1">Categoría</label>
+          <select id="dishCategoryInput" class="w-full bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 focus:outline-none font-medium">
+            <option value="Entradas">Entradas / Porciones</option>
+            <option value="Bebidas">Bebidas</option>
+            <option value="Platos Dulces">Platos Dulces</option>
+            <option value="Platos Especiales">Platos Especiales</option>
+            <option value="Aeropuertos">Aeropuertos</option>
+            <option value="Combinados">Combinados</option>
+            <option value="Tallarines">Tallarines</option>
+            <option value="Sopas">Sopas</option>
+            <option value="Chaufa">Chaufa</option>
+          </select>
+        </div>
+
+        <div class="bg-zinc-100 dark:bg-zinc-900 p-3.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+          <div class="flex items-center justify-between mb-2">
+            <label class="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Precio (S/)</label>
+            <button type="button" id="restoreDefaultPriceBtn" onclick="restoreSingleDishPrice()" class="hidden text-[11px] font-bold text-amber-600 dark:text-amber-400 underline">Volver al original</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="number" id="dishPriceInput" step="0.50" min="0" required class="w-28 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 focus:outline-none text-lg font-black tabular-nums text-center">
+            <div class="grid grid-cols-4 gap-1 flex-1">
+              <button type="button" onclick="adjustModalPrice(-1)" class="py-2 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-extrabold">-1</button>
+              <button type="button" onclick="adjustModalPrice(-0.5)" class="py-2 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-extrabold">-0.5</button>
+              <button type="button" onclick="adjustModalPrice(0.5)" class="py-2 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-extrabold">+0.5</button>
+              <button type="button" onclick="adjustModalPrice(1)" class="py-2 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-extrabold">+1</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between bg-zinc-100 dark:bg-zinc-900 p-3 rounded-xl border border-zinc-200 dark:border-zinc-800">
+          <div>
+            <span class="text-xs font-bold text-zinc-900 dark:text-white block">Disponible</span>
+            <span class="text-[11px] text-zinc-500">Desactiva si se agotó</span>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="dishAvailableInput" checked class="sr-only peer">
+            <div class="w-11 h-6 bg-zinc-300 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+          </label>
+        </div>
+
+        <div class="flex items-center justify-between pt-1 gap-2">
+          <button type="button" id="deleteDishBtn" onclick="deleteCurrentDish()" class="hidden text-rose-600 font-bold px-3 py-2.5 rounded-xl text-xs">Eliminar</button>
+          <div class="flex items-center gap-2 ml-auto">
+            <button type="button" onclick="closeDishModal()" class="bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold px-4 py-2.5 rounded-xl text-xs">Cancelar</button>
+            <button type="submit" class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-black px-5 py-2.5 rounded-xl text-xs">Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL RESPALDO -->
+  <div id="backupModal" class="hidden fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-950 w-full max-w-md rounded-3xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-2xl">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h2 class="text-base font-black text-zinc-900 dark:text-white">Respaldo</h2>
+          <p class="text-xs text-zinc-500">Exporta o importa tus precios modificados</p>
+        </div>
+        <button onclick="closeBackupModal()" class="w-8 h-8 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-zinc-500 flex items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-3">
+        <textarea id="backupTextarea" rows="4" class="w-full bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-200 p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 text-xs font-mono focus:outline-none"></textarea>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="copyBackupData()" class="bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 font-bold px-4 py-2.5 rounded-xl text-xs">Copiar</button>
+          <button type="button" onclick="importBackupData()" class="flex-1 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-bold py-2.5 rounded-xl text-xs">Cargar Respaldo</button>
+        </div>
+        <div class="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between text-xs">
+          <button type="button" onclick="confirmResetAllMenu()" class="text-rose-600 font-semibold underline">Restaurar carta base</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 px-4 py-2 rounded-full text-xs font-bold shadow-lg opacity-0 pointer-events-none transition-opacity duration-150 whitespace-nowrap"></div>
+
+  <script>
+    // =========================================================================
+    // 1. CATÁLOGO VERIFICADO (84 ORIGINALES + WANTÁN S/8 Y MEDIA S/4)
+    // =========================================================================
+    const CATALOG_VERSION = 4;
+
+    const DEFAULT_MENU = [
+      { id: 85, name: "Porción de Wantán", category: "Entradas", price: 8 },
+      { id: 86, name: "Media Porción de Wantán", category: "Entradas", price: 4 },
+      { id: 1, name: "Jarra de Chicha", category: "Bebidas", price: 10 },
+      { id: 2, name: "Vaso de Chicha", category: "Bebidas", price: 2 },
+      { id: 3, name: "Inka Cola de Vidrio Personal", category: "Bebidas", price: 3 },
+      { id: 4, name: "Coca Cola de Vidrio Personal", category: "Bebidas", price: 3 },
+      { id: 5, name: "Inka Cola Descartable Personal", category: "Bebidas", price: 5 },
+      { id: 6, name: "Coca Cola Descartable Personal", category: "Bebidas", price: 5 },
+      { id: 7, name: "Agua", category: "Bebidas", price: 3 },
+      { id: 8, name: "Inka Cola Gordita", category: "Bebidas", price: 7 },
+      { id: 9, name: "Inka Cola de 1 Lt", category: "Bebidas", price: 10 },
+      { id: 10, name: "Coca Cola de 1 Lt", category: "Bebidas", price: 10 },
+      { id: 11, name: "Inka Cola de 1 Lt 1/2", category: "Bebidas", price: 12 },
+      { id: 12, name: "Coca Cola de 1 Lt 1/2", category: "Bebidas", price: 12 },
+      { id: 13, name: "Inka Cola de 2 Lt 1/2", category: "Bebidas", price: 16 },
+      { id: 14, name: "Inka Cola de 3 Lt", category: "Bebidas", price: 18 },
+      { id: 15, name: "Tipakay", category: "Platos Dulces", price: 18 },
+      { id: 16, name: "Tipakay d/ langostino", category: "Platos Dulces", price: 25 },
+      { id: 17, name: "Kalu Wantan c/ Chaufa", category: "Platos Dulces", price: 20 },
+      { id: 18, name: "Chancho c/ Piña", category: "Platos Dulces", price: 18 },
+      { id: 19, name: "Chancho c/ Durazno", category: "Platos Dulces", price: 18 },
+      { id: 20, name: "Chancho c/ Tamarindo", category: "Platos Dulces", price: 15 },
+      { id: 21, name: "Pollo c/ Tamarindo", category: "Platos Dulces", price: 15 },
+      { id: 22, name: "Pollo c/ Durazno", category: "Platos Dulces", price: 17 },
+      { id: 23, name: "Pollo c/ Piña", category: "Platos Dulces", price: 17 },
+      { id: 24, name: "Langostino c/ Tamarindo", category: "Platos Dulces", price: 22 },
+      { id: 25, name: "Enrollado c/ piña y durazno", category: "Platos Dulces", price: 25 },
+      { id: 26, name: "Chijaukay c/ Chaufa", category: "Platos Especiales", price: 18 },
+      { id: 27, name: "Chijaukay d/ Langostino", category: "Platos Especiales", price: 25 },
+      { id: 28, name: "Chancho c/ Champiñón", category: "Platos Especiales", price: 18 },
+      { id: 29, name: "Pollo c/ Champiñón", category: "Platos Especiales", price: 18 },
+      { id: 30, name: "Pollo en Salsa d/ Ostion", category: "Platos Especiales", price: 17 },
+      { id: 31, name: "Enrollado d/ pollo", category: "Platos Especiales", price: 20 },
+      { id: 32, name: "Enrollado d/ langostino", category: "Platos Especiales", price: 25 },
+      { id: 33, name: "Taypa c/ Chaufa", category: "Platos Especiales", price: 20 },
+      { id: 34, name: "Chicharron d/ Langostino", category: "Platos Especiales", price: 25 },
+      { id: 35, name: "Chicharrón d/ Pollo", category: "Platos Especiales", price: 18 },
+      { id: 36, name: "Aeropuerto d/ Pollo", category: "Aeropuertos", price: 16 },
+      { id: 37, name: "Aeropuerto d/ Res", category: "Aeropuertos", price: 17 },
+      { id: 38, name: "Aeropuerto d/ chancho", category: "Aeropuertos", price: 18 },
+      { id: 39, name: "Aeropuerto d/ langostino", category: "Aeropuertos", price: 22 },
+      { id: 40, name: "Aeropuerto Salvaje", category: "Aeropuertos", price: 25 },
+      { id: 41, name: "Aeropuerto 3 Sabores", category: "Aeropuertos", price: 25 },
+      { id: 42, name: "Aeropuerto d/ langostino y pollo", category: "Aeropuertos", price: 25 },
+      { id: 43, name: "Aeropuerto d/ langostino y chancho", category: "Aeropuertos", price: 25 },
+      { id: 44, name: "Pollo c/ Verdura", category: "Combinados", price: 15 },
+      { id: 45, name: "Combinado d/ Pollo", category: "Combinados", price: 16 },
+      { id: 46, name: "Combinado d/ Res", category: "Combinados", price: 17 },
+      { id: 47, name: "Combinado d/ Chancho", category: "Combinados", price: 18 },
+      { id: 48, name: "Combinado d/ langostino", category: "Combinados", price: 22 },
+      { id: 49, name: "Combinado especial", category: "Combinados", price: 25 },
+      { id: 50, name: "Combinado 3 Sabores", category: "Combinados", price: 25 },
+      { id: 51, name: "Lomo Saltado d/ Res", category: "Combinados", price: 18 },
+      { id: 52, name: "Saltado d/ Pollo", category: "Combinados", price: 18 },
+      { id: 53, name: "Saltado Oriental", category: "Combinados", price: 17 },
+      { id: 54, name: "Chancho c/ Verduras", category: "Combinados", price: 17 },
+      { id: 55, name: "Langostino c/ verdura", category: "Combinados", price: 25 },
+      { id: 56, name: "Tallarin Saltado d/ Pollo", category: "Tallarines", price: 14 },
+      { id: 57, name: "Tallarin Saltado d/ Res", category: "Tallarines", price: 16 },
+      { id: 58, name: "Tallarin Saltado d/ chancho", category: "Tallarines", price: 18 },
+      { id: 59, name: "Tallarin Saltado d/ langostino", category: "Tallarines", price: 22 },
+      { id: 60, name: "Tallarin Especial", category: "Tallarines", price: 22 },
+      { id: 61, name: "Tallarin d/ Pollo y Langostino", category: "Tallarines", price: 25 },
+      { id: 62, name: "Tallarin Saltado 3 sabores", category: "Tallarines", price: 25 },
+      { id: 63, name: "Tallarin saltado d/ chancho c/ langostino", category: "Tallarines", price: 25 },
+      { id: 64, name: "Tallarin de pollo c/ tausi", category: "Tallarines", price: 17 },
+      { id: 65, name: "Tallarín Saltado c/ Champiñón", category: "Tallarines", price: 18 },
+      { id: 66, name: "Tallarin de chancho c/ tausi", category: "Tallarines", price: 17 },
+      { id: 67, name: "Sopa Wantan Simple", category: "Sopas", price: 10 },
+      { id: 68, name: "Sopa Wantan Especial", category: "Sopas", price: 13 },
+      { id: 69, name: "Sopa Kion simple", category: "Sopas", price: 10 },
+      { id: 70, name: "Sopa Kion Especial", category: "Sopas", price: 13 },
+      { id: 71, name: "Sopa Fuchifu", category: "Sopas", price: 12 },
+      { id: 72, name: "Sopa d/ Pollo", category: "Sopas", price: 10 },
+      { id: 73, name: "Sustancia d/ Res", category: "Sopas", price: 13 },
+      { id: 74, name: "Sustancia d/ Pollo", category: "Sopas", price: 13 },
+      { id: 75, name: "Sopa Pac Pow", category: "Sopas", price: 14 },
+      { id: 76, name: "Chaufa d/ Pollo", category: "Chaufa", price: 14 },
+      { id: 77, name: "Chaufa d/ Res", category: "Chaufa", price: 15 },
+      { id: 78, name: "Chaufa d/ Chancho", category: "Chaufa", price: 17 },
+      { id: 79, name: "Chaufa d/ Langostino", category: "Chaufa", price: 22 },
+      { id: 80, name: "Chaufa Especial", category: "Chaufa", price: 22 },
+      { id: 81, name: "Chaufa 3 Sabores", category: "Chaufa", price: 25 },
+      { id: 82, name: "Chaufa d/ Langostino y Pollo", category: "Chaufa", price: 25 },
+      { id: 83, name: "Chaufa Super Especial", category: "Chaufa", price: 25 },
+      { id: 84, name: "Chaufa d/ Chancho y Langostino", category: "Chaufa", price: 25 }
+    ];
+
+    const CATEGORIES = ["Todos", "Entradas", "Chaufa", "Aeropuertos", "Combinados", "Tallarines", "Platos Especiales", "Platos Dulces", "Sopas", "Bebidas"];
+
+    const TABLES = [];
+    for (let i = 1; i <= 25; i++) {
+      TABLES.push({ id: `M${i}`, label: `Mesa ${i}`, short: `M${i}` });
+    }
+    TABLES.push({ id: "LL", label: "Para Llevar", short: "Llevar" });
+
+    const STORAGE_MENU_KEY = "katzumy_menu_v4";
+    const STORAGE_ORDERS_KEY = "katzumy_orders_v4";
+    const STORAGE_FREQ_KEY = "katzumy_freq_v4";
+    const STORAGE_THEME_KEY = "katzumy_theme_v4";
+
+    let menuItems = [];
+    let selectedCategory = "Todos";
+    let searchQuery = "";
+    let activeTable = "M1";
+    let ordersByTable = {};
+    TABLES.forEach(t => { ordersByTable[t.id] = []; });
+
+    let usageStats = {};
+    let releaseConfirmPending = false;
+    let resetAllConfirmPending = false;
+
+    function buildMergedMenu(savedList) {
+      const savedMap = new Map();
+      if (Array.isArray(savedList)) {
+        savedList.forEach(item => { if (item && typeof item.id === "number") savedMap.set(item.id, item); });
+      }
+      const merged = DEFAULT_MENU.map(baseItem => {
+        const userVersion = savedMap.get(baseItem.id);
+        if (userVersion) {
+          savedMap.delete(baseItem.id);
+          return {
+            id: baseItem.id,
+            name: userVersion.name || baseItem.name,
+            category: userVersion.category || baseItem.category,
+            price: typeof userVersion.price === "number" ? userVersion.price : baseItem.price,
+            available: userVersion.available !== false,
+            defaultPrice: baseItem.price,
+            isCustom: false
+          };
+        }
+        return { ...baseItem, available: true, defaultPrice: baseItem.price, isCustom: false };
+      });
+      savedMap.forEach(extraItem => {
+        merged.unshift({
+          id: extraItem.id,
+          name: extraItem.name,
+          category: extraItem.category || "Chaufa",
+          price: Number(extraItem.price) || 0,
+          available: extraItem.available !== false,
+          defaultPrice: Number(extraItem.price) || 0,
+          isCustom: true
+        });
+      });
+      return merged;
+    }
+
+    function initApp() {
+      const savedTheme = localStorage.getItem(STORAGE_THEME_KEY);
+      if (savedTheme === "light") document.documentElement.classList.remove("dark");
+      else document.documentElement.classList.add("dark");
+
+      let rawSavedMenu = null;
+      try {
+        const currentRaw = localStorage.getItem(STORAGE_MENU_KEY);
+        if (currentRaw) rawSavedMenu = JSON.parse(currentRaw);
+      } catch (e) {}
+
+      menuItems = buildMergedMenu(rawSavedMenu);
+      saveMenuToStorage();
+
+      try {
+        const savedOrders = localStorage.getItem(STORAGE_ORDERS_KEY);
+        if (savedOrders) ordersByTable = { ...ordersByTable, ...JSON.parse(savedOrders) };
+      } catch (e) {}
+
+      try {
+        const savedFreq = localStorage.getItem(STORAGE_FREQ_KEY);
+        if (savedFreq) usageStats = JSON.parse(savedFreq);
+      } catch (e) {}
+
+      renderTableSelector();
+      renderCategoryChips();
+      renderFrequentChips();
+      renderMenu();
+      updateOrderUI();
+      setupSearchListener();
+    }
+
+    function saveMenuToStorage() {
+      try { localStorage.setItem(STORAGE_MENU_KEY, JSON.stringify(menuItems)); } catch (e) {}
+    }
+
+    function saveOrdersToStorage() {
+      try { localStorage.setItem(STORAGE_ORDERS_KEY, JSON.stringify(ordersByTable)); } catch (e) {}
+    }
+
+    function saveFreqToStorage() {
+      try { localStorage.setItem(STORAGE_FREQ_KEY, JSON.stringify(usageStats)); } catch (e) {}
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem(STORAGE_THEME_KEY, isDark ? "dark" : "light");
+    }
+
+    function normalizeText(text) {
+      return String(text)
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\binca\b/g, "inka")
+        .replace(/\b1\.5\b/g, "1 lt 1/2")
+        .replace(/\bd\//g, "de ")
+        .replace(/\bc\//g, "con ");
+    }
+
+    function formatPrice(price) { return "S/ " + Number(price).toFixed(2); }
+
+    function highlightMatch(text, query) {
+      if (!query) return text;
+      const tokens = query.trim().split(/\s+/).filter(t => t.length > 0);
+      if (tokens.length === 0) return text;
+      const escaped = tokens.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+      const regex = new RegExp(`(${escaped.join('|')})`, 'gi');
+      return text.replace(regex, '<mark>$1</mark>');
+    }
+
+    function renderTableSelector() {
+      const container = document.getElementById("tableSelector");
+      container.innerHTML = TABLES.map(t => {
+        const isActive = t.id === activeTable;
+        const order = ordersByTable[t.id] || [];
+        const total = order.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        const hasItems = order.length > 0;
+        return `
+          <button onclick="switchTable('${t.id}')" class="px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shrink-0 ${
+            isActive ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 shadow-sm' : 'bg-white dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800'
+          }">
+            ${hasItems ? `<span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block"></span>` : ''}
+            <span>${t.short}</span>
+            ${hasItems ? `<span class="text-[10px] font-extrabold text-amber-500 tabular-nums">S/${total % 1 === 0 ? total : total.toFixed(1)}</span>` : ''}
+          </button>
+        `;
+      }).join("");
+    }
+
+    function switchTable(tableId) {
+      activeTable = tableId;
+      releaseConfirmPending = false;
+      document.getElementById("cashPaidInput").value = "";
+      renderTableSelector();
+      renderMenu();
+      updateOrderUI();
+    }
+
+    function renderCategoryChips() {
+      const container = document.getElementById("categoryChips");
+      container.innerHTML = CATEGORIES.map(cat => {
+        const isActive = cat === selectedCategory;
+        return `
+          <button onclick="selectCategory('${cat}')" class="px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition shrink-0 cursor-pointer ${
+            isActive ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950' : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 border border-zinc-200/60 dark:border-zinc-800'
+          }">${cat}</button>
+        `;
+      }).join("");
+    }
+
+    function selectCategory(cat) {
+      selectedCategory = cat;
+      renderCategoryChips();
+      renderMenu();
+    }
+
+    function renderFrequentChips() {
+      const bar = document.getElementById("quickFrequentBar");
+      const container = document.getElementById("frequentChips");
+      if (searchQuery.trim().length > 0) {
+        bar.classList.add("hidden");
+        return;
+      }
+      const topIds = [85, 76, 36, 45, 56, 9];
+      const topDishes = topIds.map(id => menuItems.find(m => m.id === id && m.available !== false)).filter(Boolean);
+      if (topDishes.length === 0) {
+        bar.classList.add("hidden");
+        return;
+      }
+      bar.classList.remove("hidden");
+      container.innerHTML = topDishes.map(dish => `
+        <button onclick="addToOrder(${dish.id})" class="px-2.5 py-1.5 rounded-xl bg-white dark:bg-zinc-900 hover:bg-zinc-100 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5 whitespace-nowrap shrink-0 transition active:scale-95">
+          <span>${dish.name}</span>
+          <span class="text-[11px] font-extrabold text-zinc-400 tabular-nums">S/${dish.price}</span>
+        </button>
+      `).join("");
+    }
+
+    function setupSearchListener() {
+      const input = document.getElementById("searchInput");
+      const clearBtn = document.getElementById("clearSearchBtn");
+      input.addEventListener("input", (e) => {
+        searchQuery = e.target.value;
+        clearBtn.classList.toggle("hidden", searchQuery.trim().length === 0);
+        renderFrequentChips();
+        renderMenu();
+      });
+    }
+
+    function clearSearch() {
+      const input = document.getElementById("searchInput");
+      input.value = "";
+      searchQuery = "";
+      document.getElementById("clearSearchBtn").classList.add("hidden");
+      input.focus();
+      renderFrequentChips();
+      renderMenu();
+    }
+
+    function resetFilters() {
+      selectedCategory = "Todos";
+      document.getElementById("sortFilter").value = "default";
+      clearSearch();
+      renderCategoryChips();
+      renderMenu();
+    }
+
+    function renderMenu() {
+      const menuList = document.getElementById("menuList");
+      const emptyState = document.getElementById("emptyState");
+      const resultsCount = document.getElementById("resultsCount");
+      const totalMenuBadge = document.getElementById("totalMenuBadge");
+      const sortMode = document.getElementById("sortFilter").value;
+
+      totalMenuBadge.textContent = `${menuItems.length}`;
+      const normQuery = normalizeText(searchQuery.trim());
+      const queryTokens = normQuery.split(/\s+/).filter(Boolean);
+
+      let filtered = menuItems.filter(item => {
+        if (selectedCategory !== "Todos" && item.category !== selectedCategory) return false;
+        if (sortMode === "available_only" && item.available === false) return false;
+        if (sortMode === "edited_only" && item.price === item.defaultPrice) return false;
+        if (queryTokens.length === 0) return true;
+
+        const searchable = `${item.name.toLowerCase()} ${normalizeText(item.name)} ${normalizeText(item.category)} ${item.price}`;
+        return queryTokens.every(token => searchable.includes(token));
+      });
+
+      if (sortMode === "price_asc") filtered.sort((a, b) => a.price - b.price);
+      else if (sortMode === "price_desc") filtered.sort((a, b) => b.price - a.price);
+
+      resultsCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'resultado' : 'resultados'}`;
+
+      if (filtered.length === 0) {
+        menuList.classList.add("hidden");
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      menuList.classList.remove("hidden");
+      emptyState.classList.add("hidden");
+      const currentOrder = ordersByTable[activeTable] || [];
+
+      menuList.innerHTML = filtered.map(item => {
+        const isAvailable = item.available !== false;
+        const isEdited = !item.isCustom && Number(item.price) !== Number(item.defaultPrice);
+        const totalInOrder = currentOrder.filter(o => o.id === item.id).reduce((sum, o) => sum + o.qty, 0);
+
+        return `
+          <div class="tap-card px-4 py-3 flex items-center justify-between gap-3 ${!isAvailable ? 'opacity-50 bg-zinc-50 dark:bg-zinc-950/50' : 'hover:bg-zinc-50/80 dark:hover:bg-zinc-900'}">
+            <div onclick="openDishModal(${item.id})" class="flex-1 min-w-0 cursor-pointer">
+              <div class="flex items-center gap-1.5 mb-0.5 flex-wrap">
+                <span class="text-[11px] font-medium text-zinc-400">${item.category}</span>
+                ${isEdited ? `<span class="text-[9px] font-bold uppercase px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300">Editado</span>` : ''}
+                ${!isAvailable ? `<span class="text-[9px] font-bold uppercase px-1.5 py-0.2 rounded bg-rose-100 text-rose-600">Agotado</span>` : ''}
+                ${totalInOrder > 0 ? `<span class="text-[10px] font-extrabold px-1.5 py-0.2 rounded bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 tabular-nums">x${totalInOrder}</span>` : ''}
+              </div>
+              <h3 class="text-[15px] font-semibold text-zinc-900 dark:text-zinc-100 leading-snug ${!isAvailable ? 'line-through' : ''}">${highlightMatch(item.name, searchQuery)}</h3>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              <button onclick="openDishModal(${item.id})" class="text-right focus:outline-none py-1 px-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
+                <span class="text-base sm:text-lg font-extrabold text-zinc-900 dark:text-white tabular-nums tracking-tight block">${formatPrice(item.price)}</span>
+              </button>
+              <button onclick="addToOrder(${item.id})" ${!isAvailable ? 'disabled' : ''} class="w-10 h-10 rounded-xl flex items-center justify-center transition ${!isAvailable ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400 cursor-not-allowed' : totalInOrder > 0 ? 'bg-rose-600 text-white' : 'bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-900 dark:hover:bg-zinc-100 text-zinc-900 dark:text-zinc-100 dark:hover:text-zinc-950'}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function addToOrder(id) {
+      const dish = menuItems.find(item => item.id === id);
+      if (!dish || dish.available === false) return;
+      const currentOrder = ordersByTable[activeTable];
+      const existing = currentOrder.find(item => item.id === id && !item.note);
+      if (existing) existing.qty += 1;
+      else currentOrder.push({ id: dish.id, name: dish.name, price: dish.price, qty: 1, note: "" });
+
+      usageStats[id] = (usageStats[id] || 0) + 1;
+      saveFreqToStorage();
+      saveOrdersToStorage();
+      renderTableSelector();
+      renderFrequentChips();
+      updateOrderUI();
+      renderMenu();
+      showToast(`+1 ${dish.name}`);
+    }
+
+    function toggleCustomExtraForm() {
+      const form = document.getElementById("customExtraForm");
+      form.classList.toggle("hidden");
+      if (!form.classList.contains("hidden")) document.getElementById("extraNameInput").focus();
+    }
+
+    function addCustomExtra(name, price) {
+      const currentOrder = ordersByTable[activeTable];
+      const existing = currentOrder.find(item => item.id === null && item.name === name && item.price === price);
+      if (existing) existing.qty += 1;
+      else currentOrder.push({ id: null, name, price: Number(price), qty: 1, note: "" });
+
+      saveOrdersToStorage();
+      renderTableSelector();
+      updateOrderUI();
+      renderOrderDrawerItems();
+      calculateChange();
+      showToast(`+1 ${name}`);
+    }
+
+    function submitCustomExtra() {
+      const name = document.getElementById("extraNameInput").value.trim();
+      const price = parseFloat(document.getElementById("extraPriceInput").value);
+      if (!name || isNaN(price) || price < 0) {
+        showToast("Escribe nombre y monto");
+        return;
+      }
+      addCustomExtra(name, price);
+      document.getElementById("extraNameInput").value = "";
+      document.getElementById("extraPriceInput").value = "";
+      document.getElementById("customExtraForm").classList.add("hidden");
+    }
+
+    function changeOrderItemQty(index, delta) {
+      const currentOrder = ordersByTable[activeTable];
+      if (!currentOrder[index]) return;
+      currentOrder[index].qty += delta;
+      if (currentOrder[index].qty <= 0) currentOrder.splice(index, 1);
+
+      saveOrdersToStorage();
+      renderTableSelector();
+      updateOrderUI();
+      renderMenu();
+      renderOrderDrawerItems();
+      calculateChange();
+      if (currentOrder.length === 0) document.getElementById("orderDrawer").classList.add("hidden");
+    }
+
+    function confirmReleaseTable() {
+      const btn = document.getElementById("releaseTableBtn");
+      if (!releaseConfirmPending) {
+        releaseConfirmPending = true;
+        btn.textContent = "¿Confirmar Cobro?";
+        btn.classList.replace("bg-rose-600", "bg-emerald-600");
+        setTimeout(() => {
+          if (releaseConfirmPending) {
+            releaseConfirmPending = false;
+            btn.textContent = "Cobrar y Liberar";
+            btn.classList.replace("bg-emerald-600", "bg-rose-600");
+          }
+        }, 3000);
+        return;
+      }
+      releaseConfirmPending = false;
+      btn.textContent = "Cobrar y Liberar";
+      btn.classList.replace("bg-emerald-600", "bg-rose-600");
+
+      ordersByTable[activeTable] = [];
+      document.getElementById("cashPaidInput").value = "";
+      saveOrdersToStorage();
+      renderTableSelector();
+      updateOrderUI();
+      renderMenu();
+      document.getElementById("orderDrawer").classList.add("hidden");
+      showToast("Mesa cobrada y liberada");
+    }
+
+    function getActiveOrderTotal() {
+      return (ordersByTable[activeTable] || []).reduce((sum, item) => sum + (item.price * item.qty), 0);
+    }
+
+    function updateOrderUI() {
+      const orderBar = document.getElementById("orderBar");
+      const currentOrder = ordersByTable[activeTable] || [];
+      const totalQty = currentOrder.reduce((sum, item) => sum + item.qty, 0);
+      const totalPrice = getActiveOrderTotal();
+      const tableObj = TABLES.find(t => t.id === activeTable);
+
+      document.getElementById("activeTableLabel").textContent = tableObj ? tableObj.label : "Mesa";
+      document.getElementById("drawerTableTitle").textContent = `Comanda - ${tableObj ? tableObj.label : "Mesa"}`;
+      document.getElementById("orderCountBadge").textContent = totalQty;
+      document.getElementById("orderTotalText").textContent = formatPrice(totalPrice);
+      document.getElementById("drawerTotalText").textContent = formatPrice(totalPrice);
+
+      if (totalQty > 0) orderBar.classList.remove("translate-y-full");
+      else orderBar.classList.add("translate-y-full");
+    }
+
+    function toggleOrderDrawer() {
+      const drawer = document.getElementById("orderDrawer");
+      releaseConfirmPending = false;
+      document.getElementById("releaseTableBtn").textContent = "Cobrar y Liberar";
+      document.getElementById("releaseTableBtn").className = "bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition";
+
+      if (drawer.classList.contains("hidden")) {
+        renderOrderDrawerItems();
+        calculateChange();
+        drawer.classList.remove("hidden");
+      } else {
+        drawer.classList.add("hidden");
+      }
+    }
+
+    function renderOrderDrawerItems() {
+      const list = document.getElementById("orderItemsList");
+      const currentOrder = ordersByTable[activeTable] || [];
+      if (currentOrder.length === 0) {
+        list.innerHTML = `<p class="text-center text-zinc-400 py-6 text-xs">No hay platos en esta cuenta.</p>`;
+        return;
+      }
+      list.innerHTML = currentOrder.map((item, idx) => `
+        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-3 border border-zinc-200/70 dark:border-zinc-800">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-bold text-zinc-900 dark:text-white truncate">${item.name}</div>
+              <div class="text-xs text-zinc-500 tabular-nums">${formatPrice(item.price)} c/u &bull; <strong class="text-zinc-800 dark:text-zinc-200">${formatPrice(item.price * item.qty)}</strong></div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button onclick="openNoteModal(${idx})" class="h-8 px-2.5 rounded-xl border text-[11px] font-bold flex items-center gap-1 ${item.note ? 'bg-amber-100 dark:bg-amber-950/60 border-amber-300 text-amber-800' : 'bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 text-zinc-500'}">Nota</button>
+              <button onclick="changeOrderItemQty(${idx}, -1)" class="w-8 h-8 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 font-bold">-</button>
+              <span class="w-5 text-center font-extrabold text-xs tabular-nums">${item.qty}</span>
+              <button onclick="changeOrderItemQty(${idx}, 1)" class="w-8 h-8 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-bold">+</button>
+            </div>
+          </div>
+          ${item.note ? `<div onclick="openNoteModal(${idx})" class="mt-2 pt-1.5 border-t border-zinc-200/60 dark:border-zinc-800 text-[11px] font-semibold text-amber-700 dark:text-amber-300 cursor-pointer">Nota: ${item.note}</div>` : ''}
+        </div>
+      `).join("");
+    }
+
+    function openNoteModal(orderIndex) {
+      const item = ordersByTable[activeTable][orderIndex];
+      if (!item) return;
+      document.getElementById("noteOrderIndex").value = orderIndex;
+      document.getElementById("noteDishTitle").textContent = `${item.qty}x ${item.name}`;
+      document.getElementById("noteTextInput").value = item.note || "";
+      document.getElementById("noteModal").classList.remove("hidden");
+    }
+
+    function closeNoteModal() { document.getElementById("noteModal").classList.add("hidden"); }
+
+    function toggleQuickNoteChip(phrase) {
+      const input = document.getElementById("noteTextInput");
+      let parts = input.value.trim() ? input.value.split(",").map(p => p.trim()) : [];
+      const idx = parts.findIndex(p => p.toLowerCase() === phrase.toLowerCase());
+      if (idx !== -1) parts.splice(idx, 1);
+      else parts.push(phrase);
+      input.value = parts.join(", ");
+    }
+
+    function clearNoteInput() { document.getElementById("noteTextInput").value = ""; }
+
+    function saveItemNote() {
+      const idx = Number(document.getElementById("noteOrderIndex").value);
+      const noteText = document.getElementById("noteTextInput").value.trim();
+      if (ordersByTable[activeTable][idx]) {
+        ordersByTable[activeTable][idx].note = noteText;
+        saveOrdersToStorage();
+        renderOrderDrawerItems();
+      }
+      closeNoteModal();
+      showToast("Nota guardada");
+    }
+
+    function setQuickCash(amount) {
+      document.getElementById("cashPaidInput").value = amount;
+      calculateChange();
+    }
+
+    function calculateChange() {
+      const total = getActiveOrderTotal();
+      const paid = parseFloat(document.getElementById("cashPaidInput").value);
+      const changeEl = document.getElementById("changeDueText");
+      if (isNaN(paid) || paid <= 0) {
+        changeEl.textContent = "S/ 0.00";
+        changeEl.className = "text-lg font-black text-zinc-400 tabular-nums";
+        return;
+      }
+      const diff = paid - total;
+      if (diff < 0) {
+        changeEl.textContent = `Falta ${formatPrice(Math.abs(diff))}`;
+        changeEl.className = "text-sm font-black text-rose-600 tabular-nums";
+      } else {
+        changeEl.textContent = formatPrice(diff);
+        changeEl.className = "text-lg font-black text-emerald-600 dark:text-emerald-400 tabular-nums";
+      }
+    }
+
+    function copyOrderSummary() {
+      const currentOrder = ordersByTable[activeTable] || [];
+      if (currentOrder.length === 0) return;
+      const tableObj = TABLES.find(t => t.id === activeTable);
+      const lines = [
+        `*CHIFA KATZUMY - ${tableObj.label.toUpperCase()}*`,
+        ...currentOrder.map(i => `${i.qty}x ${i.name}${i.note ? ` [${i.note}]` : ""} - ${formatPrice(i.price * i.qty)}`),
+        `*TOTAL: ${formatPrice(getActiveOrderTotal())}*`
+      ];
+      const ta = document.createElement("textarea");
+      ta.value = lines.join("\n");
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); showToast("Comanda copiada"); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    let currentEditingDefaultPrice = null;
+
+    function openDishModal(id = null) {
+      const modal = document.getElementById("dishModal");
+      const title = document.getElementById("modalTitle");
+      const idInput = document.getElementById("editDishId");
+      const nameInput = document.getElementById("dishNameInput");
+      const catInput = document.getElementById("dishCategoryInput");
+      const priceInput = document.getElementById("dishPriceInput");
+      const availInput = document.getElementById("dishAvailableInput");
+      const deleteBtn = document.getElementById("deleteDishBtn");
+      const editedBadge = document.getElementById("editedBadgeModal");
+      const restoreBtn = document.getElementById("restoreDefaultPriceBtn");
+
+      if (id) {
+        const dish = menuItems.find(item => item.id === id);
+        if (!dish) return;
+        title.textContent = "Editar Plato";
+        idInput.value = dish.id;
+        nameInput.value = dish.name;
+        catInput.value = dish.category;
+        priceInput.value = dish.price;
+        availInput.checked = dish.available !== false;
+        deleteBtn.classList.remove("hidden");
+        currentEditingDefaultPrice = dish.defaultPrice;
+        if (!dish.isCustom && Number(dish.price) !== Number(dish.defaultPrice)) {
+          editedBadge.classList.remove("hidden");
+          restoreBtn.textContent = `Volver a S/ ${Number(dish.defaultPrice).toFixed(2)}`;
+          restoreBtn.classList.remove("hidden");
+        } else {
+          editedBadge.classList.add("hidden");
+          restoreBtn.classList.add("hidden");
+        }
+      } else {
+        title.textContent = "Agregar Plato";
+        idInput.value = "";
+        nameInput.value = "";
+        catInput.value = selectedCategory !== "Todos" ? selectedCategory : "Entradas";
+        priceInput.value = "";
+        availInput.checked = true;
+        deleteBtn.classList.add("hidden");
+        editedBadge.classList.add("hidden");
+        restoreBtn.classList.add("hidden");
+        currentEditingDefaultPrice = null;
+      }
+      modal.classList.remove("hidden");
+    }
+
+    function closeDishModal() { document.getElementById("dishModal").classList.add("hidden"); }
+
+    function adjustModalPrice(delta) {
+      const input = document.getElementById("dishPriceInput");
+      const current = parseFloat(input.value) || 0;
+      input.value = Math.max(0, Math.round((current + delta) * 100) / 100);
+    }
+
+    function restoreSingleDishPrice() {
+      if (currentEditingDefaultPrice !== null) {
+        document.getElementById("dishPriceInput").value = currentEditingDefaultPrice;
+        document.getElementById("restoreDefaultPriceBtn").classList.add("hidden");
+        document.getElementById("editedBadgeModal").classList.add("hidden");
+      }
+    }
+
+    function saveDish(e) {
+      e.preventDefault();
+      const idVal = document.getElementById("editDishId").value;
+      const nameVal = document.getElementById("dishNameInput").value.trim();
+      const catVal = document.getElementById("dishCategoryInput").value;
+      const priceVal = parseFloat(document.getElementById("dishPriceInput").value);
+      const availVal = document.getElementById("dishAvailableInput").checked;
+
+      if (!nameVal || isNaN(priceVal)) return;
+
+      if (idVal) {
+        const numId = Number(idVal);
+        const index = menuItems.findIndex(item => item.id === numId);
+        if (index !== -1) {
+          menuItems[index] = { ...menuItems[index], name: nameVal, category: catVal, price: priceVal, available: availVal };
+          Object.keys(ordersByTable).forEach(tbl => {
+            ordersByTable[tbl].forEach(ord => { if (ord.id === numId) { ord.name = nameVal; ord.price = priceVal; } });
+          });
+          saveOrdersToStorage();
+          renderTableSelector();
+          updateOrderUI();
+          showToast("Actualizado");
+        }
+      } else {
+        const newId = menuItems.length > 0 ? Math.max(...menuItems.map(m => m.id)) + 1 : 200;
+        menuItems.unshift({ id: newId, name: nameVal, category: catVal, price: priceVal, available: availVal, defaultPrice: priceVal, isCustom: true });
+        showToast("Plato agregado");
+      }
+      saveMenuToStorage();
+      renderFrequentChips();
+      renderMenu();
+      closeDishModal();
+    }
+
+    function deleteCurrentDish() {
+      const idVal = Number(document.getElementById("editDishId").value);
+      if (!idVal) return;
+      menuItems = menuItems.filter(item => item.id !== idVal);
+      Object.keys(ordersByTable).forEach(tbl => { ordersByTable[tbl] = ordersByTable[tbl].filter(o => o.id !== idVal); });
+      saveMenuToStorage();
+      saveOrdersToStorage();
+      renderTableSelector();
+      renderFrequentChips();
+      updateOrderUI();
+      renderMenu();
+      closeDishModal();
+      showToast("Plato eliminado");
+    }
+
+    function openBackupModal() {
+      resetAllConfirmPending = false;
+      const payload = {
+        app: "ChifaKatzumy",
+        version: CATALOG_VERSION,
+        items: menuItems.filter(i => i.isCustom || i.price !== i.defaultPrice || i.available === false).map(({ id, name, category, price, available, isCustom }) => ({ id, name, category, price, available, isCustom }))
+      };
+      document.getElementById("backupTextarea").value = JSON.stringify(payload);
+      document.getElementById("backupModal").classList.remove("hidden");
+    }
+
+    function closeBackupModal() { document.getElementById("backupModal").classList.add("hidden"); }
+
+    function copyBackupData() {
+      const ta = document.getElementById("backupTextarea");
+      ta.select();
+      try { document.execCommand("copy"); showToast("Copiado"); } catch (e) {}
+    }
+
+    function importBackupData() {
+      try {
+        const parsed = JSON.parse(document.getElementById("backupTextarea").value.trim());
+        const list = Array.isArray(parsed) ? parsed : parsed.items;
+        menuItems = buildMergedMenu(list);
+        saveMenuToStorage();
+        renderFrequentChips();
+        renderMenu();
+        closeBackupModal();
+        showToast("Restaurado");
+      } catch (e) {
+        showToast("Código inválido");
+      }
+    }
+
+    function confirmResetAllMenu() {
+      if (!resetAllConfirmPending) {
+        resetAllConfirmPending = true;
+        showToast("Presiona de nuevo para confirmar");
+        return;
+      }
+      resetAllConfirmPending = false;
+      menuItems = buildMergedMenu(null);
+      saveMenuToStorage();
+      renderFrequentChips();
+      renderMenu();
+      closeBackupModal();
+      showToast("Menú base restaurado");
+    }
+
+    let toastTimeout;
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.remove("opacity-0");
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => toast.classList.add("opacity-0"), 1700);
+    }
+
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
